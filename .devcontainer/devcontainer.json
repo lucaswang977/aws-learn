@@ -6,9 +6,11 @@
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:20",
 	"features": {
 		"ghcr.io/devcontainers/features/aws-cli:1": {},
-		"ghcr.io/audacioustux/devcontainers/aws-sam-cli:1": {}
-	}
-
+		"ghcr.io/audacioustux/devcontainers/aws-sam-cli:1": {},
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+	},
+	"postCreateCommand": "echo 'complete -C /usr/local/bin/aws_completer aws' >> /home/node/.bashrc"
+	
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
@@ -20,4 +22,5 @@
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
+	
 }

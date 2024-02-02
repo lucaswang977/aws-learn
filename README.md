@@ -3,6 +3,8 @@
 ## DVA-C02 Learning phases
 ### Phase 1 (Domain 3 Deployment)
 * Create a minimal React project without backend storage.
+https://www.youtube.com/watch?v=fEZE3rm8Ma8
+
 
 ### Phase 2 (Domain 1 Development with AWS Services)
 * Develop code for AWS Lambda.
