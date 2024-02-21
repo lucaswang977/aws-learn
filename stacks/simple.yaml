@@ -1,0 +1,38 @@
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        ZipFile: !Sub |
+          import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+          import * as AWSXRay from 'aws-xray-sdk';
+          // Initialize the X-Ray SDK
+          AWSXRay.captureAsyncFunc('handler', handler);
+          async function handler(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+            // X-Ray trace segment
+            const segment = AWSXRay.getSegment();
+            segment.addAnnotation('key', 'value');
+            return {
+              statusCode: 200,
+              body: JSON.stringify({
+                message: 'Hello from Lambda!'
+              })
+            };
+          }
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Runtime: nodejs14.x
+      TracingConfig:
+        Mode: Active

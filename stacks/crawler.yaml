@@ -1,0 +1,48 @@
+Resources:
+  CheckWebsiteFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: myBucket
+        S3Key: checkWebsite.zip
+      Handler: index.handler
+      Runtime: python3.8
+      MemorySize: 128
+      Timeout: 30
+      Role: !GetAtt ExecutionRole.Arn
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+            Policies:
+              - PolicyName: root
+                PolicyDocument:
+                  Version: '2012-10-17'
+                  Statement:
+                    - Effect: Allow
+                      Action:
+                        - s3:GetObject
+                        - s3:PutObject
+                      Resource: !Sub arn:aws:s3:::${S3BucketName}/*
+  EventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      ScheduleExpression: rate(5 minutes)
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt CheckWebsiteFunction.Arn
+          Id: TargetFunction
+  SNSTopic:
+    Type: AWS::SNS::Topic
+  Subscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: email
+      Endpoint: example@email.com
+      TopicArn: !Ref SNSTopic
