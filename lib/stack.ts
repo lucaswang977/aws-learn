@@ -30,7 +30,7 @@ export class AppStack extends cdk.Stack {
     });
     const lambdaFunction = new lambda.Function(this, props.lambdaName, {
       runtime: lambda.Runtime.NODEJS_20_X,
-      code: lambda.Code.fromAsset(path.join(__dirname, '../lambda')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../dist/lambda')),
       handler: 'functions.handler',
     });
     const api = new apigateway.RestApi(this, props.apiName);
