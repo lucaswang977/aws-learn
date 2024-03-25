@@ -1,22 +1,25 @@
 # AWS DevOps Learning Project
 
-## DVA-C02 Learning phases
-### Phase 1 (Domain 3 Deployment)
-* Create a minimal React project without backend storage.
-https://www.youtube.com/watch?v=fEZE3rm8Ma8
+## Description
+* Lambda Function(Typescript) + API Gateway + DynamoDB
+* Deployed by CDK + Typescript
 
+```bash
+# npm run deploy
+```
 
-### Phase 2 (Domain 1 Development with AWS Services)
-* Develop code for AWS Lambda.
-* Use data stores in application development.
-* Writing code to use messaging services.
-* Handling data streaming by using AWS services.
-* Writing and running test code by using AWS services and tools.
-* Managing data lifecycles.
-* Using data caching services.
+## Notes
+* Find the log group of the Lambda function:
+```
+# aws lambda list-functions
+```
 
-### Phase 3 (Domain 2 Security)
-* Using an identity provider to implement federated access.
+* Following all the logs output from this Lambda function:
+```
+# aws logs tail --follow <log_group_name>
+```
 
-### Phase 4 (Domain 4 Troubleshooting and Optimization)
-* Implementing an effective logging strategy to record application behavior and state
+* Find all the running CloudFormation stacks:
+```
+# aws cloudformation list-stacks --stack-status-filter CREATE_COMPLETE
+```

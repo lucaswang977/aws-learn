@@ -27,6 +27,7 @@ export class AppStack extends cdk.Stack {
     const table = new dynamodb.Table(this, props.tableName, {
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY
     });
     const lambdaFunction = new lambda.Function(this, props.lambdaName, {
       runtime: lambda.Runtime.NODEJS_20_X,
