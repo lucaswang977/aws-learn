@@ -21,6 +21,9 @@ const createLambdaWithApig = (
     runtime: lambda.Runtime.NODEJS_20_X,
     code: lambda.Code.fromAsset(path.join(__dirname, '../dist/lambda')),
     handler: 'functions.' + baseName,
+    environment: {
+      DB_TABLE_NAME: table.tableArn
+    }
   });
 
   const api = new apigateway.RestApi(stack, 'Api' + baseName, {

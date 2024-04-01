@@ -3,11 +3,9 @@ import { DynamoDBClient, PutItemCommand, PutItemCommandInput, QueryCommand, Quer
 
 const ddb = new DynamoDBClient()
 
-// TODO: Change to environment with dynamic variable
-const tableName = 'arn:aws:dynamodb:us-west-1:919197864738:table/AppStack-MyTable794EDED1-1H0BX04UT5YX0'
-
 export const SaveToDb: Handler<APIGatewayProxyEvent> = async (event) => {
     const params = event.queryStringParameters
+    const tableName = process.env.DB_TABLE_NAME
 
     let result = {
         statusCode: 400,
@@ -47,6 +45,7 @@ export const SaveToDb: Handler<APIGatewayProxyEvent> = async (event) => {
 
 export const FetchFromDb: Handler<APIGatewayProxyEvent> = async (event) => {
     const params = event.queryStringParameters
+    const tableName = process.env.DB_TABLE_NAME
 
     let result = {
         statusCode: 400,
@@ -74,10 +73,13 @@ export const FetchFromDb: Handler<APIGatewayProxyEvent> = async (event) => {
             const response = await ddb.send(command)
 
             if (response.Items && response.Items.length > 0 && response.Items[0]) {
-                const value = response.Items[0]['value']
-                result = {
-                    statusCode: 200,
-                    body: JSON.stringify({ message: `Fetched value: ${value}` }),
+                const obj = response.Items[0]['value']
+                if (obj) {
+                    const value = obj.S
+                    result = {
+                        statusCode: 200,
+                        body: JSON.stringify({ message: `Fetched value: ${value}` }),
+                    }
                 }
             }
         } catch (err: any) {
