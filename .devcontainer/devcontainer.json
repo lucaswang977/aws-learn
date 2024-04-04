@@ -1,29 +1,38 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/debian
 {
-	"name": "Debian",
+	"name": "Devenv",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/typescript-node:20",
+	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
 		"ghcr.io/devcontainers/features/aws-cli:1": {},
 		"ghcr.io/audacioustux/devcontainers/aws-sam-cli:1": {},
 		"ghcr.io/devcontainers-contrib/features/aws-cdk:2": {},
-		"ghcr.io/devcontainers-contrib/features/amplify-cli:2": {},
-		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-		"ghcr.io/devcontainers/features/python:1": {}
+		"ghcr.io/devcontainers-contrib/features/amplify-cli:2": {}
 	},
-	"postCreateCommand": "echo 'complete -C /usr/local/bin/aws_completer aws' >> /home/node/.bashrc"
-	
-	// Features to add to the dev container. More info: https://containers.dev/features.
+	"postCreateCommand": "echo 'complete -C /usr/local/bin/aws_completer aws' >> /home/node/.zshrc",
+	"runArgs": [
+		"--name",
+		"devenv"
+	],
 	// "features": {},
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Configure tool-specific properties.
-	// "customizations": {},
-
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh",
+				"terminal.integrated.profiles.linux": {
+					"zsh": {
+						"path": "/bin/zsh"
+					}
+				}
+			}
+		}
+	}
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
-	
 }
