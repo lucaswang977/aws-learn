@@ -12,11 +12,7 @@
 		"ghcr.io/devcontainers-contrib/features/aws-cdk:2": {},
 		"ghcr.io/devcontainers-contrib/features/amplify-cli:2": {}
 	},
-	"postCreateCommand": "echo 'complete -C /usr/local/bin/aws_completer aws' >> /home/node/.zshrc",
-	"runArgs": [
-		"--name",
-		"devenv"
-	],
+	"postCreateCommand": "zsh .devcontainer/post-create.sh",
 	// "features": {},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
